@@ -1,25 +1,21 @@
-import ConstantsAndBrowserPaths.BrowsersPaths;
+import ConstantsAndBrowserPaths.BrowserRule;
 import POM.FillInFirstPage;
 import POM.FillInSecondPage;
 import POM.MainPage;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxBinary;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.GeckoDriverService;
-
-import java.io.File;
-import java.util.concurrent.TimeUnit;
 
 import static ConstantsAndBrowserPaths.Constants.*;
 import static org.junit.Assert.assertTrue;
 
+
 @RunWith(Parameterized.class)
 public class OrderScooter {
+    @Rule
+    public BrowserRule browserRule = new BrowserRule();
     private final By button;
     private String firstName;
     private String secondName;
@@ -30,6 +26,7 @@ public class OrderScooter {
     private By ScooterColour;
     private By numberOfDays;
     private String comment;
+
 
 
     public OrderScooter(By button, String firstName, String secondName, String address, String metroStation, String phoneNumber, String date, By numberOfDays, By ScooterColour, String comment) {
@@ -54,32 +51,21 @@ public class OrderScooter {
     }
 
         @Test
-        public void OpenSite() {
-            System.setProperty("webdriver.chrome.driver", BrowsersPaths.ChromeDriverPath);
-            GeckoDriverService gecko = new GeckoDriverService.Builder()
-                    .usingDriverExecutable(new File(BrowsersPaths.FireFoxDriverPath))
-                    .usingFirefoxBinary(new FirefoxBinary(new File(BrowsersPaths.FireFoxBrowserPath)))
-                    .build();
-            WebDriver driver = new FirefoxDriver(gecko);
-            //WebDriver driver = new ChromeDriver();
+        public void openSite() {
 
-            MainPage mainPage = new MainPage(driver);
-            driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
+            MainPage mainPage = new MainPage(browserRule.getDriver());
             mainPage.openSite()
                     .closeCookies();
 
-            FillInFirstPage fillInFirstPage = new FillInFirstPage(driver);
-            driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
+            FillInFirstPage fillInFirstPage = new FillInFirstPage(browserRule.getDriver());
             fillInFirstPage.fillInFirstPageTabs(button, firstName, secondName, address, metroStation, phoneNumber);
 
-            FillInSecondPage fillInSecondPage = new FillInSecondPage(driver);
-            driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
-            fillInSecondPage.fillInFirstPageTabs(date, numberOfDays, ScooterColour, comment);
+            FillInSecondPage fillInSecondPage = new FillInSecondPage(browserRule.getDriver());
+            fillInSecondPage.fillInSecondPageTabs(date, numberOfDays, ScooterColour, comment);
+            assertTrue(fillInSecondPage.findTrackingButton().isDisplayed());
 
-            assertTrue(driver.findElement(By.xpath("/html/body/div/div/div[2]/div[5]/div[2]/button")).isDisplayed());
-
-
-            driver.quit();
             }
-        }
+
+
+}
 

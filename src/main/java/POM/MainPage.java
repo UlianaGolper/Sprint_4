@@ -12,6 +12,7 @@ import java.time.Duration;
 public class MainPage {
     private WebDriver driver;
     private String url = "https://qa-scooter.praktikum-services.ru/";
+   //кнопка "Закрыть куки"
     private final By cookieButton = By.id("rcc-confirm-button");
 
     public MainPage(WebDriver driver) {

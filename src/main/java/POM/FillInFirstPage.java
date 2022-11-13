@@ -3,24 +3,30 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 
+import static org.junit.Assert.assertNotNull;
+
 public class FillInFirstPage {
 
         private WebDriver driver;
-    private final By upperOrderButton = By.cssSelector(".Header_Nav__AGCXC > .Button_Button__ra12g");
-    private final By lowerOrderButton = By.cssSelector("css=.Button_Middle__1CSJM");
+        //поле ввода имени
         private By nameField = By.cssSelector(".Input_InputContainer__3NykH:nth-child(1) > .Input_Responsible__1jDKN");
+        //поле ввода фамилии
         private By secondNameField = By.cssSelector(".Input_InputContainer__3NykH:nth-child(2) > .Input_Input__1iN_Z");
+        //поле ввода адреса
         private By addressField = By.cssSelector(".Input_InputContainer__3NykH:nth-child(3) > .Input_Input__1iN_Z");
+        //выбор станции метро
         private By metroField = By.cssSelector(".select-search__input");
+       //поле ввода номера телефона
         private By phoneField = By.cssSelector(".Input_InputContainer__3NykH:nth-child(5) > .Input_Input__1iN_Z");
+        //кнопка "Далее"
         private By moveOnButton = By.cssSelector(".Button_Middle__1CSJM");
 
 
         public FillInFirstPage (WebDriver driver) {
             this.driver = driver;
         }
-    public void fillInFirstPageTabs(By button, String firstName, String secondName, String address, String metroStation, String phoneNumber) {
-        driver.findElement(button).click();
+    //заполнить все поля первой страницы
+    public void fillInFirstPageTabs(By button, String firstName, String secondName, String address, String metroStation, String phoneNumber) {driver.findElement(button).click();
         driver.findElement(nameField).sendKeys(firstName);
         driver.findElement(secondNameField).sendKeys(secondName);
         driver.findElement(addressField).sendKeys(address);
